@@ -4,14 +4,7 @@ import Chatbar from './Chatbar.jsx';
 
 const defaultData = {
   currentUser: {name: "Bob"},
-  messages: [{
-    username: "Bob",
-    content: "Has anyone seen my marbles?"
-  },
-  {
-    username: "Anonymous1",
-    content:  "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-  }]
+  messages: []
 };
 
 class App extends Component {
@@ -19,6 +12,7 @@ class App extends Component {
     super(props);
     // Initialize the state of this component with the default data object above.
     this.state = defaultData;
+    this.socket = "";
     // Bind the function to handle the status change from the child.
     this.handleMessageInput = this.handleMessageInput.bind(this);
   }
@@ -26,21 +20,20 @@ class App extends Component {
   // This function will be passed to the chatbar as a props.
   // Chatbar will call it after handling the event locally with its own local function.
   handleMessageInput(newMessage) {
-    const messages = this.state.messages.concat(newMessage)
-    this.setState({messages: messages})
+      this.socket.send(JSON.stringify(newMessage));
+    //const messages = this.state.messages.concat(newMessage)
+    //this.setState({messages: messages})
   }
 
   componentDidMount() {
-    console.log("componentDidMount <App />");
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-      const messages = this.state.messages.concat(newMessage)
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({messages: messages})
-    }, 3000);
+    this.socket = new WebSocket("ws://localhost:3001");
+    console.log("Connected to server")
+    this.socket.onmessage = (event) => {
+        const messages = this.state.messages.concat(JSON.parse(event.data))
+        this.setState({messages: messages})
+    };
+    this.socket.onerror = (error) => console.log(error);
+    //this.socket.onopen = function (event) {console.log(event)}
   }
 
   render() {

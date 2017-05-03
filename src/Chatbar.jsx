@@ -9,7 +9,9 @@ class Chatbar extends Component {
 
   handleMessageInputChange = (e) => {
     if (e.key === 'Enter') {
+      //const newMessage = {username: this.props.currentUser.name, content: e.target.value};
       const newMessage = {username: this.props.currentUser.name, content: e.target.value};
+      JSON.stringify(newMessage);
       // This function was passed from App (the state owner and parent). We pass the new message object.
       this.props.onMessageInput(newMessage);
       e.target.value = "";
