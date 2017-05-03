@@ -1,4 +1,4 @@
-React Boilerplate
+Chatty-App
 =====================
 
 A real time chat application developed with React as part of the Web Dev
