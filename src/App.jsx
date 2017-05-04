@@ -40,16 +40,16 @@ class App extends Component {
     console.log("Connected to server")
 
     this.socket.onmessage = (event) => {
-      console.log("Received a message from the server: ", event.data);
+      //console.log("Received a message from the server: ", event.data);
       const data = JSON.parse(event.data);
 
       switch (data.type) {
         case "incomingMessage":
-          const messages = this.state.messages.concat(event.data)
+          const messages = this.state.messages.concat(data)
           this.setState({messages: messages})
           break;
         case "incomingNotification":
-          const notifications = this.state.notifications.concat(event.data)
+          const notifications = this.state.notifications.concat(data)
           this.setState({notifications: notifications})
           break;
         default:
