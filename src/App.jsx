@@ -4,7 +4,8 @@ import Chatbar from './Chatbar.jsx';
 
 const defaultData = {
   currentUser: {name: "Bob"},
-  messages: []
+  messages: [],
+  notifications: []
 };
 
 class App extends Component {
@@ -21,21 +22,39 @@ class App extends Component {
   // This function will be passed to the chatbar as a props.
   // Chatbar will call it after handling the event locally with its own local function.
   handleMessageInput(newMessage) {
+      // Add type
+      newMessage.type = "postMessage";
       this.socket.send(JSON.stringify(newMessage));
     //const messages = this.state.messages.concat(newMessage)
     //this.setState({messages: messages})
   }
 
-  handleUsername(newUser) {
-    this.setState({currentUser: newUser})
+  handleUsername(newUser, newNotification) {
+    this.setState({currentUser: newUser});
+    newNotification.type = "postNotification";
+    this.socket.send(JSON.stringify(newNotification));
   }
 
   componentDidMount() {
     this.socket = new WebSocket("ws://localhost:3001");
     console.log("Connected to server")
+
     this.socket.onmessage = (event) => {
-        const messages = this.state.messages.concat(JSON.parse(event.data))
-        this.setState({messages: messages})
+      console.log("Received a message from the server: ", event.data);
+      const data = JSON.parse(event.data);
+
+      switch (data.type) {
+        case "incomingMessage":
+          const messages = this.state.messages.concat(event.data)
+          this.setState({messages: messages})
+          break;
+        case "incomingNotification":
+          const notifications = this.state.notifications.concat(event.data)
+          this.setState({notifications: notifications})
+          break;
+        default:
+          throw new Error("Unknown event type: " + data.type);
+      }
     };
     this.socket.onerror = (error) => console.log(error);
   }
@@ -47,7 +66,9 @@ class App extends Component {
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
-        <MessageList  messages = {this.state.messages} />
+        <MessageList  messages = {this.state.messages}
+                      notifications = {this.state.notifications}
+         />
         <Chatbar currentUser = {this.state.currentUser}
                  onMessageInput = {this.handleMessageInput}
                  onUsernameChange = {this.handleUsername}

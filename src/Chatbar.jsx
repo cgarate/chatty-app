@@ -30,8 +30,12 @@ class Chatbar extends Component {
 
   handleUsernameInputBlur = (e) => {
       const newUser = {name: e.target.value};
+      console.log(this.props.currentUser.name);
+      const notificationContent = `User ${this.props.currentUser.name} changed their name to ${e.target.value}`;
+      const newNotification = {content: notificationContent};
+      //JSON.stringify(newNotification);
       // This function was passed from App (the state owner and parent). We pass the new User object.
-      this.props.onUsernameChange(newUser);
+      this.props.onUsernameChange(newUser, newNotification);
   }
 
   render() {

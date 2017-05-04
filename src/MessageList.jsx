@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
+import Notification from "./Notification.jsx";
 
 class MessageList extends Component {
 
@@ -13,12 +14,13 @@ class MessageList extends Component {
           <Message key={message.id} username={message.username} content={message.content} />
           )
         }
-        <div className="message system">
-          Anonymous1 changed their name to nomnom.
-        </div>
+        {
+          this.props.notifications.map( (notification) =>
+          <Notification key={notification.id} content={notification.content} />
+          )
+        }
       </main>
     )
   }
 }
-
 export default MessageList;
