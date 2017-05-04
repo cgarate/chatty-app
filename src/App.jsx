@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import Chatbar from './Chatbar.jsx';
+import UsersOnline from './UsersOnline.jsx'
 
 const defaultData = {
-  currentUser: {name: "Bob"},
+  connectedClients: 0,
+  currentUser: {name: "Carlos"},
   messages: [],
   notifications: []
 };
@@ -40,7 +42,7 @@ class App extends Component {
     console.log("Connected to server")
 
     this.socket.onmessage = (event) => {
-      //console.log("Received a message from the server: ", event.data);
+      console.log("Received a message from the server: ", event.data);
       const data = JSON.parse(event.data);
 
       switch (data.type) {
@@ -51,6 +53,10 @@ class App extends Component {
         case "incomingNotification":
           const notifications = this.state.notifications.concat(data)
           this.setState({notifications: notifications})
+          break;
+        case "clientCountNotification":
+        console.log("client count: ", data);
+          this.setState({connectedClients: data.content})
           break;
         default:
           throw new Error("Unknown event type: " + data.type);
@@ -65,6 +71,7 @@ class App extends Component {
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
+          <UsersOnline users = {this.state.connectedClients} />
         </nav>
         <MessageList  messages = {this.state.messages}
                       notifications = {this.state.notifications}
