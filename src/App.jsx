@@ -15,6 +15,7 @@ class App extends Component {
     this.socket = "";
     // Bind the function to handle the status change from the child.
     this.handleMessageInput = this.handleMessageInput.bind(this);
+    this.handleUsername = this.handleUsername.bind(this);
   }
 
   // This function will be passed to the chatbar as a props.
@@ -25,6 +26,10 @@ class App extends Component {
     //this.setState({messages: messages})
   }
 
+  handleUsername(newUser) {
+    this.setState({currentUser: newUser})
+  }
+
   componentDidMount() {
     this.socket = new WebSocket("ws://localhost:3001");
     console.log("Connected to server")
@@ -33,7 +38,6 @@ class App extends Component {
         this.setState({messages: messages})
     };
     this.socket.onerror = (error) => console.log(error);
-    //this.socket.onopen = function (event) {console.log(event)}
   }
 
   render() {
@@ -46,6 +50,7 @@ class App extends Component {
         <MessageList  messages = {this.state.messages} />
         <Chatbar currentUser = {this.state.currentUser}
                  onMessageInput = {this.handleMessageInput}
+                 onUsernameChange = {this.handleUsername}
         />
       </div>
     );
