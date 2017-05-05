@@ -5,7 +5,7 @@ import UsersOnline from './UsersOnline.jsx'
 
 const defaultData = {
   connectedClients: 0,
-  currentUser: {name: "Carlos"},
+  currentUser: {name: "Carlos", color: "#000000"},
   messages: [],
   notifications: []
 };
@@ -32,7 +32,10 @@ class App extends Component {
   }
 
   handleUsername(newUser, newNotification) {
-    this.setState({currentUser: newUser});
+    let newCurrentUser = this.state.currentUser;
+    newCurrentUser.name = newUser;
+    this.setState({currentUser: newCurrentUser});
+
     newNotification.type = "postNotification";
     this.socket.send(JSON.stringify(newNotification));
   }
@@ -41,8 +44,10 @@ class App extends Component {
     this.socket = new WebSocket("ws://localhost:3001");
     console.log("Connected to server")
 
+    //listen for messages coming from the server
     this.socket.onmessage = (event) => {
       console.log("Received a message from the server: ", event.data);
+      // Parse the JSON string into an object.
       const data = JSON.parse(event.data);
 
       switch (data.type) {
@@ -55,7 +60,6 @@ class App extends Component {
           this.setState({notifications: notifications})
           break;
         case "clientCountNotification":
-        console.log("client count: ", data);
           this.setState({connectedClients: data.content})
           break;
         default:
@@ -75,6 +79,7 @@ class App extends Component {
         </nav>
         <MessageList  messages = {this.state.messages}
                       notifications = {this.state.notifications}
+                      userColor = {this.state.currentUser.color}
          />
         <Chatbar currentUser = {this.state.currentUser}
                  onMessageInput = {this.handleMessageInput}

@@ -5,7 +5,7 @@ class UsersOnline extends Component {
     console.log("Rendering <UsersOnline/>")
     return (
       <div className="usersOnline">
-        <span>{this.props.users} Users online</span>
+        <span>{this.props.users} User(s) online</span>
       </div>
     )
   }

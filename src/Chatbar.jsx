@@ -6,7 +6,7 @@ class Chatbar extends Component {
       super(props);
       this.handleMessageInputChange = this.handleMessageInputChange.bind(this);
       this.handleUsernameInputChange = this.handleUsernameInputChange.bind(this);
-      this.handleUsernameInputBlur = this.handleUsernameInputBlur.bind(this);
+      //this.handleUsernameInputBlur = this.handleUsernameInputBlur.bind(this);
     }
 
   handleMessageInputChange = (e) => {
@@ -22,22 +22,22 @@ class Chatbar extends Component {
 
   handleUsernameInputChange = (e) => {
     if (e.key === 'Enter') {
-      const newUser = {name: e.target.value};
+      const newUser = e.target.value;
       const notificationContent = `User ${this.props.currentUser.name} changed their name to ${e.target.value}`;
-      const newNotification = {content: notificationContent};
+      const newNotification = {username: e.target.value, content: notificationContent};
       // This function was passed from App (the state owner and parent). We pass the new User object.
       this.props.onUsernameChange(newUser, newNotification);
     }
   }
 
-  handleUsernameInputBlur = (e) => {
+  /*handleUsernameInputBlur = (e) => {
       const newUser = {name: e.target.value};
       const notificationContent = `User ${this.props.currentUser.name} changed their name to ${e.target.value}`;
       const newNotification = {content: notificationContent};
       //JSON.stringify(newNotification);
       // This function was passed from App (the state owner and parent). We pass the new User object.
       this.props.onUsernameChange(newUser, newNotification);
-  }
+  }*/
 
   render() {
     console.log("Rendering <Chatbar />")
@@ -47,7 +47,8 @@ class Chatbar extends Component {
                 placeholder = "Your Name (Optional)"
                 defaultValue = {this.props.currentUser.name}
                 onKeyPress = {this.handleUsernameInputChange}
-                onBlur = {this.handleUsernameInputBlur} />
+                //onBlur = {this.handleUsernameInputBlur}
+               />
 
         <input className = "chatbar-message"
                placeholder = "Type a message and hit ENTER"
