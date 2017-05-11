@@ -50,6 +50,7 @@ class App extends Component {
       // Parse the JSON string into an object.
       const data = JSON.parse(event.data);
 
+      // Check the type of the message received and act accordingly.
       switch (data.type) {
         case "incomingMessage":
           const messages = this.state.messages.concat(data)
