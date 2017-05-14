@@ -20,6 +20,7 @@ const wss = new SocketServer({ server });
 let currentClientCount = 0;
 let countMessage = "";
 
+// Random color RGB to be assigned to each connected user.
 function randomColor () {
   const rand255 = () => {
     return Math.floor(Math.random() * 255);
@@ -30,9 +31,7 @@ function randomColor () {
 const broadcast = (message) => {
   // Broadcast to everyone else.
   wss.clients.forEach( function(client) {
-    //if (client != ws) {
       client.send(JSON.stringify(message));
-    //}
   });
 }
 
@@ -47,7 +46,7 @@ updateCurrentClientCount = (clientsConnected) => {
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
 
-  //Assign a random colour to users.
+  //Assign a random colour to users. Saved as part of the websocket (client connection) object.
   ws.color = randomColor();
   console.log('Client connected');
   // Send number of clients connected.
@@ -56,7 +55,7 @@ wss.on('connection', (ws) => {
   ws.on('message', function incoming(message) {
 
     // Since this came as an Object, we JSON stringified on the react end and we JSON parse here.
-    parsedMsg = JSON.parse(message);
+    let parsedMsg = JSON.parse(message);
     switch (parsedMsg.type) {
       // The client posted a message
       case "postMessage":

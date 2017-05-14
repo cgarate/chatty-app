@@ -6,12 +6,10 @@ class Chatbar extends Component {
       super(props);
       this.handleMessageInputChange = this.handleMessageInputChange.bind(this);
       this.handleUsernameInputChange = this.handleUsernameInputChange.bind(this);
-      //this.handleUsernameInputBlur = this.handleUsernameInputBlur.bind(this);
     }
 
   handleMessageInputChange = (e) => {
     if (e.key === 'Enter') {
-      //const newMessage = {username: this.props.currentUser.name, content: e.target.value};
       const newMessage = {username: this.props.currentUser.name, content: e.target.value};
       JSON.stringify(newMessage);
       // This function was passed from App (the state owner and parent). We pass the new message object.
@@ -30,15 +28,6 @@ class Chatbar extends Component {
     }
   }
 
-  /*handleUsernameInputBlur = (e) => {
-      const newUser = {name: e.target.value};
-      const notificationContent = `User ${this.props.currentUser.name} changed their name to ${e.target.value}`;
-      const newNotification = {content: notificationContent};
-      //JSON.stringify(newNotification);
-      // This function was passed from App (the state owner and parent). We pass the new User object.
-      this.props.onUsernameChange(newUser, newNotification);
-  }*/
-
   render() {
     console.log("Rendering <Chatbar />")
     return (
@@ -47,7 +36,6 @@ class Chatbar extends Component {
                 placeholder = "Your Name (Optional)"
                 defaultValue = {this.props.currentUser.name}
                 onKeyPress = {this.handleUsernameInputChange}
-                //onBlur = {this.handleUsernameInputBlur}
                />
 
         <input className = "chatbar-message"
@@ -58,5 +46,4 @@ class Chatbar extends Component {
     )
   }
 }
-
 export default Chatbar;

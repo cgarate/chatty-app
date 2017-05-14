@@ -6,8 +6,7 @@ import UsersOnline from './UsersOnline.jsx'
 const defaultData = {
   connectedClients: 0,
   currentUser: {name: "Carlos", color: "#000000"},
-  messages: [],
-  notifications: []
+  messages: []
 };
 
 class App extends Component {
@@ -27,8 +26,6 @@ class App extends Component {
       // Add type
       newMessage.type = "postMessage";
       this.socket.send(JSON.stringify(newMessage));
-    //const messages = this.state.messages.concat(newMessage)
-    //this.setState({messages: messages})
   }
 
   handleUsername(newUser, newNotification) {
@@ -53,12 +50,9 @@ class App extends Component {
       // Check the type of the message received and act accordingly.
       switch (data.type) {
         case "incomingMessage":
+        case "incomingNotification":
           const messages = this.state.messages.concat(data)
           this.setState({messages: messages})
-          break;
-        case "incomingNotification":
-          const notifications = this.state.notifications.concat(data)
-          this.setState({notifications: notifications})
           break;
         case "clientCountNotification":
           this.setState({connectedClients: data.content})
@@ -79,7 +73,6 @@ class App extends Component {
           <UsersOnline users = {this.state.connectedClients} />
         </nav>
         <MessageList  messages = {this.state.messages}
-                      notifications = {this.state.notifications}
                       userColor = {this.state.currentUser.color}
          />
         <Chatbar currentUser = {this.state.currentUser}
