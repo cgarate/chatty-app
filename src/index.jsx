@@ -7,7 +7,13 @@ require("../styles/application.scss");
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
+//import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+//import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 ReactDOM.render(
-  <App />, document.getElementById('react-root')
+  <MuiThemeProvider >
+   <App />
+ </MuiThemeProvider>
+  , document.getElementById('react-root')
 );

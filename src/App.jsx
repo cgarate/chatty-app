@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import Chatbar from './Chatbar.jsx';
 import UsersOnline from './UsersOnline.jsx'
+import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
+
 
 const defaultData = {
   connectedClients: 0,
@@ -65,13 +67,21 @@ class App extends Component {
   }
 
   render() {
-    console.log("Rendering <App/>")
     return (
       <div>
-        <nav className="navbar">
-          <a href="/" className="navbar-brand">Chatty</a>
-          <UsersOnline users = {this.state.connectedClients} />
-        </nav>
+
+        <Toolbar style={{backgroundColor: '#FFE082',}}>
+          <ToolbarGroup firstChild={true}  >
+            <div className="navbar">
+              <div className="navbar-brand">
+              <ToolbarTitle text="React Chat App" />
+              </div>
+              <UsersOnline users = {this.state.connectedClients} />
+            </div>
+          </ToolbarGroup>
+        </Toolbar>
+
+
         <MessageList  messages = {this.state.messages}
                       userColor = {this.state.currentUser.color}
          />

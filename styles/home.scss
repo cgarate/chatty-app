@@ -7,11 +7,11 @@
    color: black;
    font-family: 'Open Sans', sans-serif;
    font-size: 14px;
-   margin: 70px 0;
+   margin: 0;
  }
 
  .chatbar {
-   background: tomato;
+   background: #FFE082;
    border-top: 1px solid black;
    bottom: 0;
    display: flex;
@@ -68,31 +68,24 @@
  }
 
  .navbar {
-   background: tomato;
-   border-bottom: 1px solid black;
-   height: 60px;
-   left: 0;
-   padding: 0 10px;
+   left: 15px;
    position: fixed;
-   right: 0;
+   right: 15px;
    top: 0;
  }
 
  .navbar-brand {
-   color: inherit;
+   color: #555;
    display: block;
    float: left;
    font-weight: 700;
    font-size: 28px;
-   height: 60px;
-   line-height: 60px;
-   padding: 0 10px;
    text-decoration: none;
  }
 
  .usersOnline {
    float: right;
+   top: 0;
+   padding: 0;
    position: relative;
-   vertical-align: bottom;
-   color: #ffffff;
  }
