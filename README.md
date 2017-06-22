@@ -6,12 +6,15 @@ Bootcamp at Lighthouse Labs.
 
 ### Usage
 
-Install the dependencies and start the server.
+Clone the repository, install the dependencies.
 
 ```
-npm install
+/chatty-app/npm install
+cd chatty-server
+node server.js
+cd ..
 npm start
-open http://localhost:3000
+open browser to http://localhost:3000
 ```
 
 ```
