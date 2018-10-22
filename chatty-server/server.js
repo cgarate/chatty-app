@@ -17,15 +17,14 @@ const server = express()
 
 // Create the WebSockets server
 const wss = new SocketServer({ server });
-let currentClientCount = 0;
-let countMessage = "";
+let countMessage = '';
 
 // Random color RGB to be assigned to each connected user.
 function randomColor () {
   const rand255 = () => {
     return Math.floor(Math.random() * 255);
   }
-  return "rgb(" + rand255() + "," + rand255() + "," + rand255() + ")";
+  return `rgb(${rand255()},${rand255()},${rand255()})`;
 }
 
 const broadcast = (message) => {
@@ -35,9 +34,9 @@ const broadcast = (message) => {
   });
 }
 
-updateCurrentClientCount = (clientsConnected) => {
+const updateCurrentClientCount = (clientsConnected) => {
   countMessage = {content: clientsConnected};
-  countMessage.type = "clientCountNotification";
+  countMessage.type = 'clientCountNotification';
   broadcast(countMessage);
 }
 
@@ -58,19 +57,19 @@ wss.on('connection', (ws) => {
     let parsedMsg = JSON.parse(message);
     switch (parsedMsg.type) {
       // The client posted a message
-      case "postMessage":
+      case 'postMessage':
         // we change the type of the message to incoming before broadcasting to everybody.
         parsedMsg.type = "incomingMessage"
         parsedMsg.color = ws.color; // send back the color assigned to the client connection (user)
         break;
       // The client sent a notification.
-      case "postNotification":
+      case 'postNotification':
         // Change the type before broadcasting to everybody.
         parsedMsg.type = "incomingNotification"
         break;
     }
     // Generate a uuid, this will be used to give a unique id to the elements rendered.
-    guid = uuidV1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
+    const guid = uuidV1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
     parsedMsg.id = guid;
     //Broadcast the message to the clients.
     broadcast(parsedMsg);

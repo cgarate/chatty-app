@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import AccountBoxIcon from 'material-ui/svg-icons/action/account-box';
@@ -33,27 +33,23 @@ const styles = {
   },
 };
 
-class UsersOnline extends Component {
-  render() {
-    return (
-      <div className="usersOnline">
-        <Badge
-          badgeContent={this.props.users}
-          primary={true}
-          badgeStyle={{top: 0, right: 0}}
-          style={{padding:0, right:15}}
-        >
-          <IconButton
-            iconStyle={styles.smallIcon}
-            style={styles.small}
-            tooltip="Users Online now!"
-            touch={true}>
-            <AccountBoxIcon />
-          </IconButton>
-        </Badge>
+const UsersOnline = (props) => (
+  <div className="usersOnline">
+    <Badge
+      badgeContent={props.users}
+      primary={true}
+      badgeStyle={{top: 0, right: 0}}
+      style={{padding:0, right:15}}
+    >
+      <IconButton
+        iconStyle={styles.smallIcon}
+        style={styles.small}
+        tooltip="Users Online now!"
+        touch={true}>
+        <AccountBoxIcon />
+      </IconButton>
+    </Badge>
 
-      </div>
-    )
-  }
-}
+  </div>
+)
 export default UsersOnline;
