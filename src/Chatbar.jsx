@@ -1,16 +1,22 @@
-import React from 'react';
+import React from "react";
+import { ANONYMOUS } from "./constants";
 
-const Chatbar = (props) => (
-  <footer className = "chatbar">
-    <input  className = "chatbar-username"
-            placeholder = "Your Name (Optional)"
-            defaultValue = {props.currentUser.name}
-            onKeyPress = {props.handleUsername}
-            />
+const Chatbar = ({ currentUser, handleUsername, handleMessageInput }) => (
+  <footer className="chatbar">
+    <input
+      className="chatbar-username"
+      placeholder={ANONYMOUS}
+      defaultValue={
+        currentUser && currentUser.name !== ANONYMOUS ? currentUser.name : ""
+      }
+      onKeyPress={handleUsername}
+    />
 
-    <input className = "chatbar-message"
-            placeholder = "Type a message and hit ENTER"
-            onKeyPress = {props.handleMessageInput} />
+    <input
+      className="chatbar-message"
+      placeholder="Type a message and hit ENTER"
+      onKeyPress={handleMessageInput}
+    />
   </footer>
-)
+);
 export default Chatbar;

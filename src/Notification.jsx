@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-const Notification = (props) => (
-  <div className="notification" key={props.id}>
-    <span className="notification-content">{props.content}</span>
+const Notification = ({ id, content }) => (
+  <div className="notification" key={id}>
+    <span className="notification-content">{content}</span>
   </div>
-)
+);
 
 export default Notification;

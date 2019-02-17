@@ -1,7 +1,7 @@
-import React from 'react';
-import Badge from 'material-ui/Badge';
-import IconButton from 'material-ui/IconButton';
-import AccountBoxIcon from 'material-ui/svg-icons/action/account-box';
+import React from "react";
+import Badge from "material-ui/Badge";
+import IconButton from "material-ui/IconButton";
+import AccountBoxIcon from "material-ui/svg-icons/action/account-box";
 
 const styles = {
   smallIcon: {
@@ -33,23 +33,23 @@ const styles = {
   },
 };
 
-const UsersOnline = (props) => (
+const UsersOnline = ({ users }) => (
   <div className="usersOnline">
     <Badge
-      badgeContent={props.users}
+      badgeContent={users}
       primary={true}
-      badgeStyle={{top: 0, right: 0}}
-      style={{padding:0, right:15}}
+      badgeStyle={{ top: 0, right: 0 }}
+      style={{ padding: 0, right: 15 }}
     >
       <IconButton
         iconStyle={styles.smallIcon}
         style={styles.small}
         tooltip="Users Online now!"
-        touch={true}>
+        touch={true}
+      >
         <AccountBoxIcon />
       </IconButton>
     </Badge>
-
   </div>
-)
+);
 export default UsersOnline;
