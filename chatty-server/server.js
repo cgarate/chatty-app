@@ -11,7 +11,7 @@ const PORT = 3001;
 
 // String Constants
 const LEFT = "left";
-const ARRIVED = "arrived to";
+const ARRIVED = "joined";
 const POST_NOTIFICATION = "postNotification";
 const POST_MESSAGE = "postMessage";
 const INCOMING_NOTIFICATION = "incomingNotification";
