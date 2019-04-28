@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Badge from "material-ui/Badge";
 import IconButton from "material-ui/IconButton";
 import AccountBoxIcon from "material-ui/svg-icons/action/account-box";
@@ -52,4 +53,8 @@ const UsersOnline = ({ users }) => (
     </Badge>
   </div>
 );
+
+UsersOnline.propTypes = {
+  users: PropTypes.number,
+};
 export default UsersOnline;

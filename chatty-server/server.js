@@ -10,8 +10,8 @@ const uuidV1 = require("uuid/v1");
 const PORT = 3001;
 
 // String Constants
-const LEFT = "left";
-const ARRIVED = "joined";
+const USER_LEFT = "left";
+const USER_ARRIVED = "joined";
 const POST_NOTIFICATION = "postNotification";
 const POST_MESSAGE = "postMessage";
 const INCOMING_NOTIFICATION = "incomingNotification";
@@ -68,7 +68,7 @@ wss.on("connection", (ws) => {
   // Send number of clients connected.
   updateCurrentClientCount(
     wss.clients.size,
-    setUserCountNotificationMessage(ARRIVED),
+    setUserCountNotificationMessage(USER_ARRIVED),
   );
 
   ws.on("message", function incoming(message) {
@@ -98,7 +98,7 @@ wss.on("connection", (ws) => {
   ws.on("close", function() {
     updateCurrentClientCount(
       wss.clients.size,
-      setUserCountNotificationMessage(LEFT),
+      setUserCountNotificationMessage(USER_LEFT),
     );
   });
   // Catch errors

@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
 import Message from "./Message.jsx";
 import Notification from "./Notification.jsx";
 import {
@@ -28,4 +30,9 @@ const MessageList = ({ messages }) => (
     })}
   </main>
 );
+
+MessageList.propTypes = {
+  messages: PropTypes.array,
+}
+
 export default MessageList;

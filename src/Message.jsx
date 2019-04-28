@@ -1,4 +1,6 @@
 import React from 'react';
+import { stringify } from 'querystring';
+import PropTypes from 'prop-types';
 
 const Message = ({ usercolor, content, id, username }) => {
   const userStyle = {
@@ -11,4 +13,12 @@ const Message = ({ usercolor, content, id, username }) => {
     </div>
   )
 }
+
+Message.propTypes = {
+  usercolor: PropTypes.string,
+  content: PropTypes.string,
+  id: PropTypes.string,
+  username: PropTypes.string,
+}
+
 export default Message;

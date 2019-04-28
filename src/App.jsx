@@ -1,9 +1,18 @@
+/* eslint-disable quotes */
+/* eslint-disable comma-dangle */
 import React, { Component } from "react";
 import MessageList from "./MessageList.jsx";
 import Chatbar from "./Chatbar.jsx";
-import UsersOnline from "./UsersOnline.jsx";
-import { Toolbar, ToolbarGroup, ToolbarTitle } from "material-ui/Toolbar";
-import { POST_NOTIFICATION, MESSAGE_NOTIFICATION, ANONYMOUS } from './constants';
+import Header from "./Header.jsx"
+
+import {
+  POST_NOTIFICATION,
+  MESSAGE_NOTIFICATION,
+  ANONYMOUS,
+  INCOMING_NOTIFICATION,
+  INCOMING_MESSAGE,
+  CLIENT_COUNT_NOTIFICATION,
+} from "./constants";
 
 const defaultData = {
   connectedClients: 0,
@@ -57,21 +66,21 @@ class App extends Component {
 
   componentDidMount() {
     this.socket = new WebSocket("ws://localhost:3001");
+    // eslint-disable-next-line no-console
     console.log("Connected to server");
 
     //listen for messages coming from the server
-    this.socket.onmessage = (event) => {
-      console.log("Received a message from the server: ", event.data);
+    this.socket.onmessage = event => {
       // Parse the JSON string into an object.
       const data = JSON.parse(event.data);
       const stateMessages = this.state.messages;
       // Check the type of the message received and act accordingly.
       switch (data.type) {
-        case "incomingMessage":
-        case "incomingNotification":
+        case INCOMING_MESSAGE:
+        case INCOMING_NOTIFICATION:
           this.setState({ messages: [...stateMessages, data] });
           break;
-        case "clientCountNotification":
+        case CLIENT_COUNT_NOTIFICATION:
           this.setState({
             connectedClients: data.userCount,
             messages: [...stateMessages, data],
@@ -81,23 +90,14 @@ class App extends Component {
           throw new Error("Unknown event type: " + data.type);
       }
     };
-    this.socket.onerror = (error) => console.log(error);
+    // eslint-disable-next-line no-console
+    this.socket.onerror = error => console.log(error);
   }
 
   render() {
     return (
       <div>
-        <Toolbar style={{ backgroundColor: "#FFE082" }}>
-          <ToolbarGroup firstChild={true}>
-            <div className="navbar">
-              <div className="navbar-brand">
-                <ToolbarTitle text="React Chat App" />
-              </div>
-              <UsersOnline users={this.state.connectedClients} />
-            </div>
-          </ToolbarGroup>
-        </Toolbar>
-
+        <Header connectedClients={this.state.connectedClients} />
         <MessageList
           messages={this.state.messages}
           userColor={this.state.currentUser.color}

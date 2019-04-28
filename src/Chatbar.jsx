@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
 import { ANONYMOUS } from "./constants";
 
 const Chatbar = ({ currentUser, handleUsername, handleMessageInput }) => (
@@ -19,4 +21,11 @@ const Chatbar = ({ currentUser, handleUsername, handleMessageInput }) => (
     />
   </footer>
 );
+
+Chatbar.propTypes = {
+  currentUser: PropTypes.object,
+  handleUsername: PropTypes.func,
+  handleMessageInput: PropTypes.func,
+}
+
 export default Chatbar;
