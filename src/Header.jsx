@@ -3,20 +3,21 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import UsersOnline from "./UsersOnline.jsx";
-import { Toolbar, ToolbarGroup, ToolbarTitle } from "material-ui/Toolbar";
+import { Toolbar, Typography, AppBar } from "@material-ui/core";
 
-const Header = ({connectedClients}) => (
-  <Toolbar style={{ backgroundColor: "#FFE082" }}>
-    <ToolbarGroup firstChild={true}>
-      <div className="navbar">
-        <div className="navbar-brand">
-          <ToolbarTitle text="Chatty App" />
-        </div>
+const Header = ({ connectedClients }) => {
+  console.log("connectedClients", connectedClients);
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6">
+          Chatty App
+        </Typography>
         <UsersOnline users={connectedClients} />
-      </div>
-    </ToolbarGroup>
-  </Toolbar>
-);
+      </Toolbar>
+    </AppBar>
+  );
+};
 
 Header.propTypes = {
   connectedClients: PropTypes.number,

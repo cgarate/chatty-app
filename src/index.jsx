@@ -4,14 +4,8 @@
 require("../styles/application.scss");
 
 // Render the top-level React component
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App.jsx';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import React from "react";
+import ReactDOM from "react-dom";
+import AppHooks from "./AppHooks";
 
-ReactDOM.render(
-  <MuiThemeProvider >
-   <App />
- </MuiThemeProvider>
-  , document.getElementById('react-root')
-);
+ReactDOM.render(<AppHooks />, document.getElementById("react-root"));

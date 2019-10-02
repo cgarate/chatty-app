@@ -10,13 +10,13 @@ const uuidV1 = require("uuid/v1");
 const PORT = 3001;
 
 // String Constants
-const USER_LEFT = "left";
-const USER_ARRIVED = "joined";
-const POST_NOTIFICATION = "postNotification";
-const POST_MESSAGE = "postMessage";
-const INCOMING_NOTIFICATION = "incomingNotification";
-const INCOMING_MESSAGE = "incomingMessage";
-const CLIENT_COUNT_NOTIFICATION = "clientCountNotification";
+const USER_LEFT_CHAT = "left";
+const USER_JOINED_CHAT = "joined";
+const POST_MESSAGE = "POST_MESSAGE";
+const POST_NOTIFICATION = "POST_NOTIFICATION";
+const INCOMING_NOTIFICATION = "INCOMING_NOTIFICATION";
+const INCOMING_MESSAGE = "INCOMING_MESSAGE";
+const CLIENT_COUNT_NOTIFICATION = "CLIENT_COUNT_NOTIFICATION";
 
 // Create a new express server
 const server = express()
@@ -40,6 +40,7 @@ function randomColor() {
 
 const broadcast = (message) => {
   // Broadcast to everyone else.
+  console.log('message:', message);
   wss.clients.forEach(function(client) {
     client.send(JSON.stringify(message));
   });
@@ -54,7 +55,7 @@ const updateCurrentClientCount = (clientsConnected, notification) => {
     userCount: clientsConnected,
     content: notification,
     type: CLIENT_COUNT_NOTIFICATION,
-    id: guid,
+    // id: guid,
   };
   broadcast(countMessage);
 };
@@ -68,39 +69,45 @@ wss.on("connection", (ws) => {
   // Send number of clients connected.
   updateCurrentClientCount(
     wss.clients.size,
-    setUserCountNotificationMessage(USER_ARRIVED),
+    setUserCountNotificationMessage(USER_JOINED_CHAT),
   );
 
   ws.on("message", function incoming(message) {
-    // Since this came as an Object, we JSON stringified on the react end and we JSON parse here.
-    let parsedMsg = JSON.parse(message);
-    switch (parsedMsg.type) {
-      // The client posted a message
-      case POST_MESSAGE:
-        // we change the type of the message to incoming before broadcasting to everybody.
-        parsedMsg.type = INCOMING_MESSAGE;
-        parsedMsg.color = ws.color; // send back the color assigned to the client connection (user)
-        break;
-      // The client sent a notification.
-      case POST_NOTIFICATION:
-        // Change the type before broadcasting to everybody.
-        parsedMsg.type = INCOMING_NOTIFICATION;
-        break;
+    try {
+      // Since this came as an Object, we JSON stringified on the react end and we JSON parse here.
+      let parsedMsg = JSON.parse(message);
+      switch (parsedMsg.type) {
+        // The client posted a message
+        case POST_MESSAGE:
+          // we change the type of the message to incoming before broadcasting to everybody.
+          parsedMsg.type = INCOMING_MESSAGE;
+          parsedMsg.color = ws.color; // send back the color assigned to the client connection (user)
+          break;
+        // The client sent a notification.
+        case POST_NOTIFICATION:
+          // Change the type before broadcasting to everybody.
+          parsedMsg.type = INCOMING_NOTIFICATION;
+          break;
+      }
+      // Generate a uuid, this will be used to give a unique id to the elements rendered.
+      const guid = uuidV1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
+      // parsedMsg.id = guid;
+      //Broadcast the message to the clients.
+      broadcast(parsedMsg);
+    } catch (error) {
+      console.error("Socket Server on Message Error:", error);
     }
-    // Generate a uuid, this will be used to give a unique id to the elements rendered.
-    const guid = uuidV1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
-    parsedMsg.id = guid;
-    //Broadcast the message to the clients.
-    broadcast(parsedMsg);
+  });
+
+  ws.on("error", (error) => {
+    console.error("Socket Server Error:", error);
   });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on("close", function() {
     updateCurrentClientCount(
       wss.clients.size,
-      setUserCountNotificationMessage(USER_LEFT),
+      setUserCountNotificationMessage(USER_LEFT_CHAT),
     );
   });
-  // Catch errors
-  ws.on("error", (Error) => console.error(Error));
 });
