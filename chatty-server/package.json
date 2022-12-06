@@ -9,7 +9,7 @@
   "author": "Carlos Garate",
   "license": "ISC",
   "dependencies": {
-    "express": "4.15.2",
+    "express": "4.17.3",
     "node-uuid": "1.4.8",
     "ws": "3.3.1"
   }
